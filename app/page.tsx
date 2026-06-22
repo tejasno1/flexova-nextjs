@@ -80,13 +80,13 @@ function Navbar() {
 // ==================== HERO ====================
 function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
+    <section className="relative min-h-[600px] sm:min-h-[85vh] lg:min-h-screen flex items-center overflow-hidden">
       <div className="absolute inset-0">
         <img src="/images/hero.png" alt="Fitness background" className="w-full h-full object-cover" />
         <div className="absolute inset-0 hero-overlay" />
         <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-flex-red/20 to-transparent" />
       </div>
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
         <div className="max-w-2xl">
           <div className="flex items-center gap-3 mb-6 animate-fadeInUp">
             <div className="flex items-center gap-1 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full">
