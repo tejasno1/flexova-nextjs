@@ -2,16 +2,15 @@
 
 import { useState, useEffect, useRef } from "react";
 import {
-  Menu, X, Star, Check, ChevronDown, ChevronUp, Mail, Phone,
+  Star, Check, ChevronDown, ChevronUp, Mail, Phone,
   Facebook, Instagram, Youtube, Twitter, ArrowRight, Dumbbell,
   Users, Calendar, TrendingUp, Award, Clock, Heart, Zap,
-  Target, BarChart3, MessageCircle, Send, Play,
+  Target, BarChart3, MessageCircle, Send, Play, Home as HomeIcon, Tag,
 } from "lucide-react";
 
 // ==================== NAVIGATION ====================
 function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -45,33 +44,44 @@ function Navbar() {
               </a>
             ))}
           </div>
-          <div className="flex items-center gap-4">
-            <a href="#contact"
-              className="hidden sm:inline-flex btn-primary bg-flex-red text-white px-6 py-2.5 rounded text-sm font-semibold hover:bg-flex-red-dark">
-              Join Now
-            </a>
-            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="lg:hidden p-2">
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className={`lg:hidden fixed inset-0 bg-flex-black/98 backdrop-blur-lg z-40 transition-transform duration-300 ${
-        isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-      }`} style={{ top: "70px" }}>
-        <div className="flex flex-col items-center gap-8 pt-12">
-          {navLinks.map((link) => (
-            <a key={link.name} href={link.href}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="text-xl font-medium text-white/80 hover:text-flex-red transition-colors">
-              {link.name}
-            </a>
-          ))}
-          <a href="#contact" onClick={() => setIsMobileMenuOpen(false)}
-            className="btn-primary bg-flex-red text-white px-8 py-3 rounded text-lg font-semibold mt-4">
+          <a href="#contact"
+            className="inline-flex btn-primary bg-flex-red text-white px-4 py-2 lg:px-6 lg:py-2.5 rounded text-xs lg:text-sm font-semibold hover:bg-flex-red-dark">
             Join Now
           </a>
         </div>
+      </div>
+    </nav>
+  );
+}
+
+// ==================== MOBILE BOTTOM NAV ====================
+function MobileBottomNav() {
+  const [active, setActive] = useState("home");
+
+  const tabs = [
+    { key: "home", name: "Home", href: "#", icon: HomeIcon },
+    { key: "services", name: "Services", href: "#services", icon: Dumbbell },
+    { key: "trainers", name: "Trainers", href: "#trainers", icon: Users },
+    { key: "pricing", name: "Pricing", href: "#pricing", icon: Tag },
+    { key: "contact", name: "Contact", href: "#contact", icon: Phone },
+  ];
+
+  return (
+    <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-flex-black/95 backdrop-blur-lg border-t border-white/10 pb-[env(safe-area-inset-bottom)]">
+      <div className="grid grid-cols-5">
+        {tabs.map((tab) => {
+          const Icon = tab.icon;
+          const isActive = active === tab.key;
+          return (
+            <a key={tab.key} href={tab.href} onClick={() => setActive(tab.key)}
+              className={`flex flex-col items-center justify-center gap-1 py-2.5 transition-colors ${
+                isActive ? "text-flex-red" : "text-white/50"
+              }`}>
+              <Icon size={20} className={isActive ? "fill-flex-red/20" : ""} />
+              <span className="text-[10px] font-medium">{tab.name}</span>
+            </a>
+          );
+        })}
       </div>
     </nav>
   );
@@ -574,8 +584,8 @@ function Footer() {
   return (
     <footer className="bg-flex-black pt-16 pb-8 border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-4 gap-12 mb-12">
-          <div className="lg:col-span-1">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10 lg:gap-12 mb-12">
+          <div className="col-span-2 lg:col-span-1">
             <a href="#" className="text-2xl font-bold tracking-tight">JR <span className="text-flex-red">Fitness.</span></a>
             <p className="text-sm text-white/50 mt-4 mb-6">Contact Details</p>
             <div className="space-y-2 text-sm text-white/60">
@@ -605,7 +615,7 @@ function Footer() {
               ))}
             </ul>
           </div>
-          <div>
+          <div className="col-span-2 lg:col-span-1">
             <h4 className="font-semibold mb-4">Hours</h4>
             <div className="space-y-2 text-sm text-white/60 mb-6">
               <p>Mon-Fri: 6:00 AM &ndash; 9:00 PM</p>
@@ -813,8 +823,9 @@ function HowItWorks() {
 // ==================== MAIN PAGE ====================
 export default function Home() {
   return (
-    <main>
+    <main className="pb-16 lg:pb-0">
       <Navbar />
+      <MobileBottomNav />
       <Hero />
       <About />
       <Stats />
